@@ -23,7 +23,6 @@ class _ChartPageState extends State<ChartPage> {
   @override
   void initState() {
     super.initState();
-    //Timer.periodic(const Duration(seconds: 1), updateDataSource);
   }
 
   @override
@@ -117,13 +116,15 @@ class _ChartPageState extends State<ChartPage> {
         )
     );
   }
-  //int time = 19;
+
+  // update data list chart
   void updateDataSource(ChartModel chartModel) {
     chartData.add(chartModel);
-    //chartData.removeAt(0);
     _chartSeriesController.updateDataSource(
         addedDataIndex: chartData.length - 1, removedDataIndex: 0);
   }
+
+  // initial data chart
   List<ChartModel> getChartData() {
     return <ChartModel>[
       ChartModel(0, 0),

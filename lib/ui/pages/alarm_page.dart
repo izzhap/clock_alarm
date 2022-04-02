@@ -15,10 +15,10 @@ class AlarmPage extends StatefulWidget {
 
 class _AlarmPageState extends State<AlarmPage> {
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     init();
   }
@@ -26,6 +26,7 @@ class _AlarmPageState extends State<AlarmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -63,6 +64,7 @@ class _AlarmPageState extends State<AlarmPage> {
                 onPressed: () {
                   DateTime alarm = Provider.of<ClockProvider>(context, listen: false).alarmDateTime;
                   showNotification(alarm);
+                  showInSnackBar("ALARM SET");
                 },
                 child: Text(
                   'SET ALARM',
@@ -81,38 +83,44 @@ class _AlarmPageState extends State<AlarmPage> {
     );
   }
 
+  // show notification schedule
    void showNotification(DateTime alarm){
     var hour = alarm.hour;
     var minute = alarm.minute;
     var second = alarm.second;
-    var androidNoti=new AndroidNotificationDetails('your channel id', 'your channel name',
-        channelDescription: 'your channel description',
+    var androidNoti=new AndroidNotificationDetails('channel_id', 'channel_name',
+        channelDescription: 'channel_desc',
         importance: Importance.max,
         priority: Priority.high,
         ticker: 'ticker');
     var iosNoti=new IOSNotificationDetails();
     var notiSetting= new NotificationDetails(android: androidNoti, iOS: iosNoti);
-    print('alarm set');
-    flutterLocalNotificationsPlugin.showDailyAtTime(0, "ALARM RINGING", "TIME TO WAKE UP",new Time(hour,minute,second), notiSetting,payload: "send message");
+    flutterLocalNotificationsPlugin.showDailyAtTime(0, "ALARM RINGING", "TIME TO WAKE UP",new Time(hour,minute,second), notiSetting,payload: "msg");
 
   }
 
-  void showMessage(String? payload) async {
+  // callback when notification click
+  void callbackNotification(String? payload) async {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ChartPage(),
       ),
     );
-    print('chart page');
   }
 
+  // initialization for local notification
   void init(){
     flutterLocalNotificationsPlugin=new FlutterLocalNotificationsPlugin();
     AndroidInitializationSettings android=new AndroidInitializationSettings("@mipmap/ic_launcher");
     IOSInitializationSettings ios=new IOSInitializationSettings();
     var initSetting=new InitializationSettings(android: android, iOS: ios);
-    flutterLocalNotificationsPlugin.initialize(initSetting,onSelectNotification: showMessage);
+    flutterLocalNotificationsPlugin.initialize(initSetting,onSelectNotification: callbackNotification);
+  }
+
+  // showing snackbar message
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState?.showSnackBar(new SnackBar(content: new Text(value)));
   }
 
 }
