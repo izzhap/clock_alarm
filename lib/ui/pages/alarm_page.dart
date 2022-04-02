@@ -26,77 +26,78 @@ class _AlarmPageState extends State<AlarmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Alarm',
-          style: Theme.of(context)
-              .textTheme
-              .headline5!
-              .copyWith(color: Colors.black),
-        ),
-        leading: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+        key: _scaffoldKey,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            'Alarm',
+            style: Theme.of(context)
+                .textTheme
+                .headline5!
+                .copyWith(color: Colors.black),
+          ),
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
           ),
         ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(child: ClockAlarmView()),
-        ],
-      ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(child: ClockAlarmView()),
+          ],
+        ),
         bottomNavigationBar: BottomAppBar(
           elevation: 0.0,
-          child:
-          Padding(
+          child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              child:
-              TextButton(
+              child: TextButton(
                 onPressed: () {
-                  DateTime alarm = Provider.of<ClockProvider>(context, listen: false).alarmDateTime;
+                  DateTime alarm =
+                      Provider.of<ClockProvider>(context, listen: false)
+                          .alarmDateTime;
                   showNotification(alarm);
                   showInSnackBar("ALARM SET");
                 },
                 child: Text(
                   'SET ALARM',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                      letterSpacing: 0.25,
-                      fontStyle: FontStyle.normal,),
+                    color: Colors.white,
+                    fontSize: 14.0,
+                    letterSpacing: 0.25,
+                    fontStyle: FontStyle.normal,
+                  ),
                 ),
                 style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Colors.blue)),
-              )
-          ),
-        )
-    );
+                    backgroundColor: MaterialStateProperty.all(Colors.blue)),
+              )),
+        ));
   }
 
   // show notification schedule
-   void showNotification(DateTime alarm){
+  void showNotification(DateTime alarm) {
     var hour = alarm.hour;
     var minute = alarm.minute;
     var second = alarm.second;
-    var androidNoti=new AndroidNotificationDetails('channel_id', 'channel_name',
+    var androidNoti = new AndroidNotificationDetails(
+        'channel_id', 'channel_name',
         channelDescription: 'channel_desc',
         importance: Importance.max,
         priority: Priority.high,
         ticker: 'ticker');
-    var iosNoti=new IOSNotificationDetails();
-    var notiSetting= new NotificationDetails(android: androidNoti, iOS: iosNoti);
-    flutterLocalNotificationsPlugin.showDailyAtTime(0, "ALARM RINGING", "TIME TO WAKE UP",new Time(hour,minute,second), notiSetting,payload: "msg");
-
+    var iosNoti = new IOSNotificationDetails();
+    var notiSetting =
+        new NotificationDetails(android: androidNoti, iOS: iosNoti);
+    flutterLocalNotificationsPlugin.showDailyAtTime(0, "ALARM RINGING",
+        "TIME TO WAKE UP", new Time(hour, minute, second), notiSetting,
+        payload: "msg");
   }
 
   // callback when notification click
@@ -110,17 +111,19 @@ class _AlarmPageState extends State<AlarmPage> {
   }
 
   // initialization for local notification
-  void init(){
-    flutterLocalNotificationsPlugin=new FlutterLocalNotificationsPlugin();
-    AndroidInitializationSettings android=new AndroidInitializationSettings("@mipmap/ic_launcher");
-    IOSInitializationSettings ios=new IOSInitializationSettings();
-    var initSetting=new InitializationSettings(android: android, iOS: ios);
-    flutterLocalNotificationsPlugin.initialize(initSetting,onSelectNotification: callbackNotification);
+  void init() {
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    AndroidInitializationSettings android =
+        new AndroidInitializationSettings("@mipmap/ic_launcher");
+    IOSInitializationSettings ios = new IOSInitializationSettings();
+    var initSetting = new InitializationSettings(android: android, iOS: ios);
+    flutterLocalNotificationsPlugin.initialize(initSetting,
+        onSelectNotification: callbackNotification);
   }
 
   // showing snackbar message
   void showInSnackBar(String value) {
-    _scaffoldKey.currentState?.showSnackBar(new SnackBar(content: new Text(value)));
+    _scaffoldKey.currentState
+        ?.showSnackBar(new SnackBar(content: new Text(value)));
   }
-
 }

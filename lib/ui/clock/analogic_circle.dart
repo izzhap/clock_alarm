@@ -49,7 +49,7 @@ class AnalogicCircle extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.01),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -61,7 +61,7 @@ class AnalogicCircle extends StatelessWidget {
                           .copyWith(color: Colors.black),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 35),
+                      padding: EdgeInsets.symmetric(vertical: height * 0.05),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

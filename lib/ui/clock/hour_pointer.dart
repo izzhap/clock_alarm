@@ -11,32 +11,32 @@ class HourPointer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ClockProvider>(
-      builder: (context, ClockProvider data, child){
-        final height = MediaQuery.of(context).size.height;
-        final hour = double.parse((DateFormat('hh').format(data.currentDateTime)));
-        final angle = (-pi * (hour / -12)) * 2;
-        final width = MediaQuery.of(context).size.width;
-        bool isPortait = height > width;
-        return RotatedBox(
-          quarterTurns: 2,
-          child: Transform.rotate(
-            angle: angle,
-            child: Transform.translate(
-              offset: Offset(0, 20),
-              child: Center(
-                child: Container(
-                  height: isPortait ? height * 0.06 : width * 0.06,
-                  width: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(32),
-                  ),
+        builder: (context, ClockProvider data, child) {
+      final height = MediaQuery.of(context).size.height;
+      final hour =
+          double.parse((DateFormat('hh').format(data.currentDateTime)));
+      final angle = (-pi * (hour / -12)) * 2;
+      final width = MediaQuery.of(context).size.width;
+      bool isPortait = height > width;
+      return RotatedBox(
+        quarterTurns: 2,
+        child: Transform.rotate(
+          angle: angle,
+          child: Transform.translate(
+            offset: Offset(0, 20),
+            child: Center(
+              child: Container(
+                height: isPortait ? height * 0.06 : width * 0.06,
+                width: 4,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(32),
                 ),
               ),
             ),
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 }

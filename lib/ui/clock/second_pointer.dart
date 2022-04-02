@@ -11,11 +11,11 @@ class SecondPointer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ClockProvider>(
         builder: (context, ClockProvider data, child) {
-          final height = MediaQuery.of(context).size.height;
-          final second = data.currentDateTime.second.toDouble();
-          final angleSecond = (-pi * (second / -60)) * 2;
-          final width = MediaQuery.of(context).size.width;
-          bool isPortait = height > width;
+      final height = MediaQuery.of(context).size.height;
+      final second = data.currentDateTime.second.toDouble();
+      final angleSecond = (-pi * (second / -60)) * 2;
+      final width = MediaQuery.of(context).size.width;
+      bool isPortait = height > width;
       return RotatedBox(
         quarterTurns: 2,
         child: Transform.rotate(
